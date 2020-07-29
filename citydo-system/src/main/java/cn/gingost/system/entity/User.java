@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -48,6 +49,10 @@ public class User extends BaseEntity {
     @NotBlank
     @Column(name = "card")
     private String card;
+
+    @NotNull
+    @Column(name = "enabled")
+    private Boolean enabled;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "dept_id")

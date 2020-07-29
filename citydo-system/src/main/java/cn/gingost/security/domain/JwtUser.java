@@ -1,6 +1,7 @@
 package cn.gingost.security.domain;
 
-import cn.gingost.system.entity.Dept;
+import cn.gingost.security.domain.dto.SmallDeptDto;
+import cn.gingost.security.domain.dto.SmallJobDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author:lezzy
@@ -30,8 +29,8 @@ public class JwtUser implements UserDetails {
     private String phone;
     private String email;
     private String card;
-    private String dept;
-    private String job;
+    private SmallDeptDto dept;
+    private SmallJobDto job;
    // private Set<String> role;
     private Collection<GrantedAuthority> authorities;
 
@@ -39,7 +38,7 @@ public class JwtUser implements UserDetails {
     @Override
     @JsonIgnore
     public String getPassword() {
-        return password;
+        return "*********";
     }
 
     @Override

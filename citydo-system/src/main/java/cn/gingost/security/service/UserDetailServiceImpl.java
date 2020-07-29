@@ -1,9 +1,9 @@
 package cn.gingost.security.service;
 
 import cn.gingost.security.domain.JwtUser;
+import cn.gingost.security.domain.dto.SmallDeptDto;
+import cn.gingost.security.domain.dto.SmallJobDto;
 import cn.gingost.system.entity.User;
-import cn.gingost.system.repository.RoleRepository;
-import cn.gingost.system.repository.UserRepository;
 import cn.gingost.system.service.RoleService;
 import cn.gingost.system.service.UserService;
 import lombok.AllArgsConstructor;
@@ -43,8 +43,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 user.getPhone(),
                 user.getEmail(),
                 user.getCard(),
-                user.getDept().getNickName(),
-                user.getJob().getNickName(),
+                new SmallDeptDto(user.getDept().getId(),user.getDept().getNickName()),
+                new SmallJobDto(user.getJob().getId(),user.getJob().getNickName()),
                 roleService.findAllPermission(user.getId())
         );
     }

@@ -29,7 +29,7 @@ public class OnlineUserService {
         String ip = StringUtils.getIp(request);
         String browser = StringUtils.getBrowser(request);
         String cityinfo=StringUtils.getCityInfo(ip);
-        OnlineUser onlineUser=new OnlineUser(jwtUser.getUsername(),jwtUser.getDept(),jwtUser.getJob(),browser,ip,cityinfo,token,new Date());
+        OnlineUser onlineUser=new OnlineUser(jwtUser.getUsername(),jwtUser.getDept().getName(),jwtUser.getJob().getName(),browser,ip,cityinfo,token,new Date());
         redisUtils.set(jwtProperties.getOnlineKey().concat(token),onlineUser,jwtProperties.getTokenValidityInSeconds()/1000);
     }
 }

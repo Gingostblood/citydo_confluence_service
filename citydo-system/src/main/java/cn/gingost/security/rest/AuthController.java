@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -65,6 +66,7 @@ public class AuthController {
         Map<String,Object> map=new HashMap<String,Object>(){{
             put("uuid",uuid);
             put("img",specCaptcha.toBase64());
+            put("res",code);
         }};
         return new ResponseEntity(map,HttpStatus.OK);
     }

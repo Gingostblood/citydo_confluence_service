@@ -23,9 +23,6 @@ public class Job extends BaseEntity {
     @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Dept dept;
 
-    @Column(name = "p_id")
-    private Long pId;
-
     @OneToOne(mappedBy = "job")
     private User user;
 }

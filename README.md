@@ -3,7 +3,7 @@
 练习项目
 
 
-<========宜宾城市大数据运营有限公司confluenceh平台后端========>
+<========宜宾城市大数据运营有限公司confluenceh平台纯后端========>
 
 技术栈：
 SpringBoot
@@ -18,3 +18,5 @@ Nginx
 MySQL
 Swagger
 Git
+
+Swagger文档：http://localhost:8080/swagger-ui.html

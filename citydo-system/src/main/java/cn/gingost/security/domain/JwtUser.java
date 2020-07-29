@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * @author:lezzy
@@ -32,13 +33,14 @@ public class JwtUser implements UserDetails {
     private SmallDeptDto dept;
     private SmallJobDto job;
    // private Set<String> role;
+    @JsonIgnore
     private Collection<GrantedAuthority> authorities;
 
 
     @Override
     @JsonIgnore
     public String getPassword() {
-        return "*********";
+        return password;
     }
 
     @Override
@@ -48,22 +50,30 @@ public class JwtUser implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
+    }
+
+    public Collection getRoles() {
+        return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
     }
 }

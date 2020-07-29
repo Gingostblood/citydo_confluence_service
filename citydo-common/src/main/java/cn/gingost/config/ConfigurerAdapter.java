@@ -35,6 +35,7 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+    //拦截请求访问本地的资源
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String avatarUtl = "file:" + avatar.replace("\\","/");

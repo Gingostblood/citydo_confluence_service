@@ -30,7 +30,7 @@ public class RoleServiceImpl implements RoleService {
     private UserRepository userRepository;
 
     @Override
-    public Collection<? extends GrantedAuthority> findAllPermission(Long id) {
+    public Collection< GrantedAuthority> findAllPermission(Long id) {
         User user = userRepository.findById(id).orElseGet(User::new);
         Set<Role> roles = user.getRoles();
         Set<String> permisson=roles.stream().filter(role -> !StringUtils.isEmpty(role.getRoleName())).map(Role::getNickName).collect(Collectors.toSet());

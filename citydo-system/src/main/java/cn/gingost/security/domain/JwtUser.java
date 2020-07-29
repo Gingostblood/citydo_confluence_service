@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtUser implements UserDetails {
+    @JsonIgnore
     private Long id;
     private String username;
     @JsonIgnore
@@ -28,7 +30,9 @@ public class JwtUser implements UserDetails {
     private String phone;
     private String email;
     private String card;
-    private Dept dept;
+    private String dept;
+    private String job;
+   // private Set<String> role;
     private Collection<GrantedAuthority> authorities;
 
 

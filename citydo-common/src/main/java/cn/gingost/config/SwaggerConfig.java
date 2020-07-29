@@ -62,7 +62,7 @@ public class SwaggerConfig {
                 .enable(true)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.gingost.system"))
+                .apis(RequestHandlerSelectors.basePackage("cn.gingost"))
                 .paths(Predicates.not(PathSelectors.regex("/error.*")))
                 .build()
                 .directModelSubstitute(Timestamp.class, Date.class)

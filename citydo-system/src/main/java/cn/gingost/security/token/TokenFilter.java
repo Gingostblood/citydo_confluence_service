@@ -33,25 +33,27 @@ public class TokenFilter extends GenericFilterBean {
       throws IOException, ServletException {
       HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
       String token = resolveToken(httpServletRequest);
-      String requestRri = httpServletRequest.getRequestURI();
-      // 验证 token 是否存在
-      OnlineUser onlineUser = null;
-      JwtProperties properties = SpringContextHolder.getBean(JwtProperties.class);
-      try {
-         OnlineUserService onlineUserService = SpringContextHolder.getBean(OnlineUserService.class);
-         onlineUser = onlineUserService.getOne(properties.getOnlineKey() + token);
-      } catch (ExpiredJwtException e) {
-         log.error(e.getMessage());
+      if (!StringUtils.isEmpty(token)){
+         String requestRri = httpServletRequest.getRequestURI();
+         OnlineUser onlineUser = null;
+         JwtProperties properties = SpringContextHolder.getBean(JwtProperties.class);
+         try {
+            OnlineUserService onlineUserService = SpringContextHolder.getBean(OnlineUserService.class);
+            onlineUser = onlineUserService.getOne(properties.getOnlineKey() + token);
+         } catch (ExpiredJwtException e) {
+            log.error(e.getMessage());
+         }
+         if (onlineUser != null && StringUtils.hasText(token)) {
+            Authentication authentication = tokenProvider.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // Token 续期
+            tokenProvider.checkRenewal(token);
+            log.debug("set Authentication to security context for '{}', uri: {}", authentication.getName(), requestRri);
+         } else {
+            log.debug("no valid JWT token found, uri: {}", requestRri);
+         }
       }
-      if (onlineUser != null && StringUtils.hasText(token)) {
-         Authentication authentication = tokenProvider.getAuthentication(token);
-         SecurityContextHolder.getContext().setAuthentication(authentication);
-         // Token 续期
-         tokenProvider.checkRenewal(token);
-         log.debug("set Authentication to security context for '{}', uri: {}", authentication.getName(), requestRri);
-      } else {
-         log.debug("no valid JWT token found, uri: {}", requestRri);
-      }
+
       filterChain.doFilter(servletRequest, servletResponse);
    }
 

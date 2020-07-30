@@ -1,14 +1,11 @@
 package cn.gingost.system.rest;
 
-import cn.gingost.base.BaseQuery;
+import cn.gingost.annotation.AnonymousAccess;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author:lezzy
@@ -16,14 +13,38 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("api/user/")
-@AllArgsConstructor
+@RequestMapping("/api/user/")
 @Api(tags = "系统：用户管理")
 public class UserController {
 
-    @ApiOperation("查询用户")
+    @ApiOperation("带 get")
     @GetMapping("findUser")
-    public ResponseEntity findUser(BaseQuery baseQuery){
-        return new ResponseEntity(HttpStatus.OK);
+    @AnonymousAccess
+    public ResponseEntity findUser() {
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @ApiOperation("不带 del")
+    @DeleteMapping("findUser")
+    public ResponseEntity delUser() {
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @ApiOperation("不带 put")
+    @PutMapping("putUser")
+    public ResponseEntity putUser() {
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @ApiOperation("不带 post")
+    @PostMapping("findUser")
+    public ResponseEntity postUser() {
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @ApiOperation("不带 other")
+    @GetMapping("test")
+    public ResponseEntity test() {
+        return new ResponseEntity("success", HttpStatus.OK);
     }
 }

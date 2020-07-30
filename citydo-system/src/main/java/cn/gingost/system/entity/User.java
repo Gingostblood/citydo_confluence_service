@@ -26,7 +26,7 @@ import java.util.Set;
 public class User extends BaseEntity {
 
     @Column(name = "nick_name")
-    @NotBlank(groups = {Create.class, Update.class})
+    @NotBlank(message = "用户名不能为空",groups = {Create.class, Update.class})
     private String nickName;
 
     @NotBlank

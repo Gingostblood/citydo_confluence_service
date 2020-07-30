@@ -43,7 +43,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 user.getPhone(),
                 user.getEmail(),
                 user.getCard(),
-                user.getDept(),
+                user.getDept().getNickName(),
+                user.getJob().getNickName(),
                 roleService.findAllPermission(user.getId())
         );
     }

@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @ApiModel("登录授权")
-public class Auther {
+public class AuthUser {
 
     @ApiModelProperty("用户名")
     private String username;

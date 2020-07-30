@@ -34,6 +34,7 @@ public class Dept extends BaseEntity {
     private Set<User> users;
 
     @Column(name = "u_id")
+    @NotNull(message = "部门主管id不能为空",groups = {Create.class,Update.class})
     private Long uid;
 
 }

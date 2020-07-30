@@ -1,5 +1,6 @@
 package cn.gingost.system.service;
 
+import cn.gingost.system.dto.req.DeptReqDto;
 import cn.gingost.system.dto.resp.Tree;
 
 import java.util.List;
@@ -11,4 +12,6 @@ import java.util.List;
 public interface DeptService {
 
     List<Tree> getDeptTree(Long id);
+
+    void saveDept(DeptReqDto deptReqDto);
 }

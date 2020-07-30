@@ -8,11 +8,11 @@ import org.springframework.util.StringUtils;
  */
 public class EntityExistException extends RuntimeException {
 
-    public EntityExistException(Class clazz, String field, String val) {
-        super(EntityExistException.generateMessage(clazz.getSimpleName(), field, val));
+    public EntityExistException(Class clazz, String field) {
+        super(EntityExistException.generateMessage(clazz.getSimpleName(), field));
     }
 
-    private static String generateMessage(String entity, String field, String val) {
+    private static String generateMessage(String entity, String field) {
         String prefixName="";
         String suffixName="";
         switch (StringUtils.capitalize(entity)){
@@ -24,6 +24,8 @@ public class EntityExistException extends RuntimeException {
                 prefixName="菜单";break;
             case "User":
                 prefixName="用户";break;
+            case "Dept":
+                prefixName="部门";break;
         }
         switch (field){
             case "username":
@@ -40,7 +42,7 @@ public class EntityExistException extends RuntimeException {
                 suffixName="组件名";break;
         }
         //return StringUtils.capitalize(entity)+ " with " + field + " "+ val + " existed";
-        return  prefixName+suffixName+""+val+"已经存在";
+        return  prefixName+suffixName+""+"已经存在";
 
 
     }

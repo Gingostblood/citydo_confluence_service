@@ -2,6 +2,7 @@ package cn.gingost.system.dto.resp;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  */
 
 @Data
-public class Tree {
+public class Tree implements Serializable {
     private Long id;
     protected Long pid;
     private String name;

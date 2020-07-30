@@ -1,6 +1,7 @@
 package cn.gingost.system.rest;
 
 import cn.gingost.annotation.AnonymousAccess;
+import cn.gingost.system.dto.req.DeptReqDto;
 import cn.gingost.system.service.DeptService;
 import cn.gingost.system.service.impl.DeptServiceImpl;
 import io.swagger.annotations.Api;
@@ -12,10 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author:lezzy
@@ -34,5 +33,13 @@ public class DeptController {
     @ApiOperation("部门列表")
     public ResponseEntity getDeptTree(@RequestParam(defaultValue = "0") Long id){
         return new ResponseEntity(deptService.getDeptTree(id), HttpStatus.OK);
+    }
+
+    @PostMapping("list")
+    @PreAuthorize("@ad.check()")
+    @ApiOperation("新增部门")
+    public ResponseEntity saveDept(@Validated @RequestBody DeptReqDto deptReqDto){
+        deptService.saveDept(deptReqDto);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

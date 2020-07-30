@@ -1,5 +1,6 @@
 package cn.gingost;
 
+import cn.gingost.annotation.AnonymousAccess;
 import cn.gingost.utils.SpringContextHolder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,6 +28,7 @@ public class AppRun {
     }
 
     @GetMapping("/")
+    @AnonymousAccess
     public String index(){
         return "citydo confluence service is running success";
     }

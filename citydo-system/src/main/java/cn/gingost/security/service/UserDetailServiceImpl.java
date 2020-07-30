@@ -1,5 +1,6 @@
 package cn.gingost.security.service;
 
+import cn.gingost.exception.BadRequestException;
 import cn.gingost.security.domain.JwtUser;
 import cn.gingost.security.domain.dto.SmallDeptDto;
 import cn.gingost.security.domain.dto.SmallJobDto;
@@ -27,6 +28,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findUserByName(username);
+        if (user.getEnabled()==true){
+            throw new BadRequestException("账号未激活，请联系管理员激活账号");
+        }
         if (Objects.nonNull(user)){
             return createJwtUser(user);
         }else {
@@ -39,6 +43,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 user.getId(),
                 user.getNickName(),
                 user.getPassword(),
+                user.getSex(),
                 null,
                 user.getPhone(),
                 user.getEmail(),

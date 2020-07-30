@@ -3,6 +3,7 @@ package cn.gingost.security.token;
 import cn.gingost.security.domain.JwtProperties;
 import cn.gingost.security.domain.OnlineUser;
 import cn.gingost.security.service.OnlineUserService;
+import cn.gingost.utils.RedisUtils;
 import cn.gingost.utils.SpringContextHolder;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
@@ -38,8 +39,8 @@ public class TokenFilter extends GenericFilterBean {
          OnlineUser onlineUser = null;
          JwtProperties properties = SpringContextHolder.getBean(JwtProperties.class);
          try {
-            OnlineUserService onlineUserService = SpringContextHolder.getBean(OnlineUserService.class);
-            onlineUser = onlineUserService.getOne(properties.getOnlineKey() + token);
+            RedisUtils redisUtils = SpringContextHolder.getBean(RedisUtils.class);
+            onlineUser = (OnlineUser) redisUtils.get(properties.getOnlineKey().concat(token));
          } catch (ExpiredJwtException e) {
             log.error(e.getMessage());
          }

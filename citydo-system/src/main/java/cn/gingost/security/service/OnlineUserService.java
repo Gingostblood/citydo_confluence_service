@@ -21,10 +21,6 @@ public class OnlineUserService {
     private final JwtProperties jwtProperties;
     private RedisUtils redisUtils;
 
-    public OnlineUser getOne(String key) {
-        return (OnlineUser) redisUtils.get(key);
-    }
-
     public void save(JwtUser jwtUser, String token, HttpServletRequest request) {
         String ip = StringUtils.getIp(request);
         String browser = StringUtils.getBrowser(request);

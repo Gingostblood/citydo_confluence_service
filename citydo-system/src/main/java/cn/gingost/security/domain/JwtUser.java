@@ -26,6 +26,7 @@ public class JwtUser implements UserDetails {
     private String username;
     @JsonIgnore
     private String password;
+    private String sex;
     private String type;
     private String phone;
     private String email;

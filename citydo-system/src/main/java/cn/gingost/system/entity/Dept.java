@@ -28,12 +28,12 @@ public class Dept extends BaseEntity {
 
     @Column(name = "p_id")
     @NotNull
-    private Long pId;
+    private Long pid;
 
     @OneToMany(mappedBy = "dept",cascade = CascadeType.MERGE)
     private Set<User> users;
 
     @Column(name = "u_id")
-    private Long uId;
+    private Long uid;
 
 }

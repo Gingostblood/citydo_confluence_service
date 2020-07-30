@@ -32,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
     public Collection<GrantedAuthority> findAllPermission(Long id) {
         User user = userRepository.findById(id).orElseGet(User::new);
         Set<Role> roles = user.getRoles();
-        Set<String> permisson=roles.stream().filter(role -> !StringUtils.isEmpty(role.getRoleName())).map(Role::getRoleName).collect(Collectors.toSet());
+        Set<String> permisson = roles.stream().filter(role -> !StringUtils.isEmpty(role.getRoleName())).map(Role::getRoleName).collect(Collectors.toSet());
         permisson.addAll(roles.stream().flatMap(role -> role.getMenus().stream()).filter(menu -> !StringUtils.isEmpty(menu.getPermission())).map(Menu::getPermission).collect(Collectors.toSet()));
         return permisson.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
     }

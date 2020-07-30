@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
+
     @Override
     public User findUserByName(String username) {
         return userRepository.findUserByNickName(username);

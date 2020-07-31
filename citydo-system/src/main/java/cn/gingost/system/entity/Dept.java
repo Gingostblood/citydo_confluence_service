@@ -30,7 +30,7 @@ public class Dept extends BaseEntity {
     @NotNull
     private Long pid;
 
-    @OneToMany(mappedBy = "dept",cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "dept")
     private Set<User> users;
 
     @Column(name = "u_id")

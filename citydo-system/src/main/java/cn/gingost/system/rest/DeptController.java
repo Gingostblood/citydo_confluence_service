@@ -16,6 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 /**
  * @author:lezzy
  * @Date:2020/7/30 10:55
@@ -38,8 +40,24 @@ public class DeptController {
     @PostMapping("list")
     @PreAuthorize("@ad.check()")
     @ApiOperation("新增部门")
-    public ResponseEntity saveDept(@Validated @RequestBody DeptReqDto deptReqDto){
+    public ResponseEntity saveDept(@Validated(DeptReqDto.Create.class) @RequestBody DeptReqDto deptReqDto){
         deptService.saveDept(deptReqDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping("list")
+    @PreAuthorize("@ad.check()")
+    @ApiOperation("修改部门信息")
+    public ResponseEntity changeDept(@Validated(DeptReqDto.Update.class) @RequestBody DeptReqDto deptReqDto){
+        deptService.changeDept(deptReqDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("list")
+    @PreAuthorize("@ad.check()")
+    @ApiOperation("删除部门")
+    public ResponseEntity delDept(@RequestBody Set<Long> ids){
+        deptService.delDept(ids);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

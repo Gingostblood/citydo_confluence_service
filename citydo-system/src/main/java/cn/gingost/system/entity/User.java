@@ -54,7 +54,7 @@ public class User extends BaseEntity {
     @Column(name = "enabled")
     private Boolean enabled;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dept_id")
     private Dept dept;
 

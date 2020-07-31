@@ -12,3 +12,8 @@ spring:
     host: 101.200.193.2
     port: 6379
     timeout: 5000
+logging:
+  level: info
+  level.io.github.hylexus: error
+log:
+  level: debug

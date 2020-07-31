@@ -27,7 +27,7 @@ public class DeptReqDto {
     private Long userId;
 
     @ApiModelProperty("上级部门id")
-    @NotNull(message = "上级部门不能为空",groups =Update.class)
+    @NotNull(message = "上级部门不能为空",groups = {Update.class,Create.class})
     private Long deptPid;
 
     public @interface Update{};

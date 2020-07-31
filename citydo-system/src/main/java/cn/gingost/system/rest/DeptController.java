@@ -60,17 +60,18 @@ public class DeptController {
     }
 
     @GetMapping("query")
-    @PreAuthorize("@ad.check()")
+    //@PreAuthorize("@ad.check()")
+    @AnonymousAccess
     @ApiOperation("模糊查询")
     public ResponseEntity query(String name){
         return new ResponseEntity(deptService.query(name),HttpStatus.OK);
     }
 
-    @GetMapping("download")
-    //@PreAuthorize("@ad.check()")
+    @PostMapping("download")
     @AnonymousAccess
     @ApiOperation("导出部门列表")
-    private void download(BaseQuery baseQuery, HttpServletResponse response){
+    public ResponseEntity download(BaseQuery baseQuery,HttpServletResponse response){
         deptService.download(baseQuery,response);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

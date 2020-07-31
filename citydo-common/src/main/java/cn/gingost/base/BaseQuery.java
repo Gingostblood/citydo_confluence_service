@@ -15,16 +15,15 @@ import java.util.Collection;
 @Data
 public class BaseQuery implements Serializable {
 
-    @Query
-    private Long id;
-
     @Query(type = Query.Type.IN,propName = "id")
     private Collection<Long> ids;
 
-    @Query(type = Query.Type.BETWEEN)
-    private Collection<Timestamp> createTime;
+//    @Query(type = Query.Type.BETWEEN)
+//    private Collection<Timestamp> createTime;
+//
+//    @Query(type = Query.Type.BETWEEN)
+//    private Collection<Timestamp> updateTime;
 
-    @Query(type = Query.Type.BETWEEN)
-    private Collection<Timestamp> updateTime;
-
+    @Query(type = Query.Type.INNER_LIKE,propName = "nickName")
+    private String nickName;
 }

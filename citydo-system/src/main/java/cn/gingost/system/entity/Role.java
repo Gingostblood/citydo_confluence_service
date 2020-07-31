@@ -1,6 +1,7 @@
 package cn.gingost.system.entity;
 
 import cn.gingost.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
@@ -27,6 +28,7 @@ public class Role extends BaseEntity {
     private String roleName;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<User> users;
 
     @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)

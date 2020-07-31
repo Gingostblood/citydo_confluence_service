@@ -1,6 +1,7 @@
 package cn.gingost.system.entity;
 
 import cn.gingost.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,8 +22,10 @@ public class Job extends BaseEntity {
     private String nickName;
 
     @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @JoinColumn(name = "dept_id")
     private Dept dept;
 
     @OneToOne(mappedBy = "job")
+    @JsonIgnore
     private User user;
 }

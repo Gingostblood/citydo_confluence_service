@@ -1,15 +1,15 @@
 package cn.gingost.system.entity;
 
 import cn.gingost.base.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -17,14 +17,14 @@ import java.util.Set;
  * @Date:2020/7/24 17:48
  */
 
-@Data
+@Getter
+@Setter
 @Table(name = "user")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
 @Where(clause = "is_delete=0")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
 
     @Column(name = "nick_name")
     @NotBlank(message = "用户名不能为空",groups = {Create.class, Update.class})
@@ -56,6 +56,7 @@ public class User extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dept_id")
+    @JsonIgnore
     private Dept dept;
 
     @ManyToMany
@@ -65,4 +66,17 @@ public class User extends BaseEntity {
     @OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "job_id")
     private Job job;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "nickName='" + nickName + '\'' +
+                ", sex='" + sex + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", card='" + card + '\'' +
+                ", enabled=" + enabled +
+                '}';
+    }
 }

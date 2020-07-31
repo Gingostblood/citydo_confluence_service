@@ -3,7 +3,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://101.200.193.2:3306/confluence-dev?serverTimezone=GMT%2B8
+#    url: jdbc:mysql://101.200.193.2:3306/confluence-dev?serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/confluence-dev?serverTimezone=GMT%2B8
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,8 +13,12 @@ spring:
     host: 101.200.193.2
     port: 6379
     timeout: 5000
+
+#logging:
+#  config: classpath:logback.xml
+#
+#log:
+#  level: debug
 logging:
-  level: info
-  level.io.github.hylexus: error
-log:
-  level: debug
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: trace

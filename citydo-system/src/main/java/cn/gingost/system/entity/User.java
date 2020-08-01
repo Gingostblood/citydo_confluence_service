@@ -52,7 +52,7 @@ public class User extends BaseEntity implements Serializable {
 
     @NotNull
     @Column(name = "enabled")
-    private Boolean enabled;
+    private Boolean enabled=false;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dept_id")

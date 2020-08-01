@@ -1,11 +1,18 @@
 package cn.gingost.system.rest;
 
 import cn.gingost.annotation.AnonymousAccess;
+import cn.gingost.system.dto.req.UserReqDto;
+import cn.gingost.system.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author:lezzy
@@ -15,36 +22,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/sys/user/")
 @Api(tags = "系统：用户管理")
+@AllArgsConstructor
 public class UserController {
+    private UserService userService;
 
-    @ApiOperation("带 get")
-    @GetMapping("findUser")
+    @ApiOperation("新增用户")
     @AnonymousAccess
-    public ResponseEntity findUser() {
-        return new ResponseEntity("success", HttpStatus.OK);
-    }
-
-    @ApiOperation("不带 del")
-    @DeleteMapping("findUser")
-    public ResponseEntity delUser() {
-        return new ResponseEntity("success", HttpStatus.OK);
-    }
-
-    @ApiOperation("不带 put")
-    @PutMapping("putUser")
-    public ResponseEntity putUser() {
-        return new ResponseEntity("success", HttpStatus.OK);
-    }
-
-    @ApiOperation("不带 post")
-    @PostMapping("findUser")
-    public ResponseEntity postUser() {
-        return new ResponseEntity("success", HttpStatus.OK);
-    }
-
-    @ApiOperation("不带 other")
-    @GetMapping("test")
-    public ResponseEntity test() {
-        return new ResponseEntity("success", HttpStatus.OK);
+    @PostMapping("list")
+    public ResponseEntity saveUser(@Validated(UserReqDto.Create.class) @RequestBody UserReqDto reqDto){
+        userService.saveUser(reqDto);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

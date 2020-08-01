@@ -1,5 +1,6 @@
 package cn.gingost.system.service;
 
+import cn.gingost.system.dto.req.UserReqDto;
 import cn.gingost.system.entity.User;
 
 /**
@@ -8,4 +9,6 @@ import cn.gingost.system.entity.User;
  */
 public interface UserService {
     User findUserByName(String username);
+
+    void saveUser(UserReqDto reqDto);
 }

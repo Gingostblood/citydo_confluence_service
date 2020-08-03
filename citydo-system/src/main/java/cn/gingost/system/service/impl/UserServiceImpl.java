@@ -14,7 +14,10 @@ import cn.gingost.system.repository.RoleRepository;
 import cn.gingost.system.repository.UserRepository;
 import cn.gingost.system.service.UserService;
 import cn.gingost.utils.QueryHelp;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,23 +47,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(UserReqDto reqDto) {
         User userByName = findUserByName(reqDto.getNickName());
-        if (Objects.nonNull(userByName)){
+        if (!Objects.nonNull(userByName)) {
             User user = userMapper.toEntity(reqDto);
-            if (Objects.nonNull(reqDto.getDeptId())){
-                user.setDept(deptRepository.findById(reqDto.getDeptId()).orElseGet(Dept::new));
+            user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+            if (Objects.nonNull(reqDto.getDeptId())) {
+                Dept dept = new Dept(reqDto.getDeptId());
+                user.setDept(dept);
             }
-            if (Objects.nonNull(reqDto.getRoleId())){
-                BaseQuery baseQuery=new BaseQuery();
-                baseQuery.setIds(reqDto.getRoleId());
-                final Set<Role> roles = roleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, baseQuery, criteriaBuilder)).stream().collect(Collectors.toSet());
+            if (Objects.nonNull(reqDto.getRoleId())) {
+                Set<Role> roles = Sets.newHashSet();
+                reqDto.getRoleId().forEach(r ->
+                {
+                    Role role = new Role(r);
+                    roles.add(role);
+                });
                 user.setRoles(roles);
             }
             if (Objects.nonNull(reqDto.getJobId())){
-                user.setJob(jobRepository.findById(reqDto.getJobId()).orElseGet(Job::new));
+                Job job=new Job(reqDto.getJobId());
+                user.setJob(job);
             }
             userRepository.save(user);
-        }else {
-            throw new EntityExistException(User.class,"name");
+        } else {
+            throw new EntityExistException(User.class, "name");
         }
 
     }

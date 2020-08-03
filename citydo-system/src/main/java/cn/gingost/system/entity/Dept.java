@@ -2,9 +2,7 @@ package cn.gingost.system.entity;
 
 import cn.gingost.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -23,6 +21,8 @@ import java.util.Set;
 @Entity
 @Table(name = "dept")
 @Where(clause = "is_delete=0")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Dept extends BaseEntity implements Serializable {
 
     @Column(name = "nick_name")
@@ -51,6 +51,10 @@ public class Dept extends BaseEntity implements Serializable {
                 "nickName='" + nickName + '\'' +
                 ", pid=" + pid +
                 '}';
+    }
+
+    public Dept(Long id){
+        this.setId(id);
     }
 
 }

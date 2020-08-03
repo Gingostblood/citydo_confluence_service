@@ -3,9 +3,11 @@ package cn.gingost.system.entity;
 import cn.gingost.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @author:lezzy
@@ -16,6 +18,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "job")
 @Entity
+@NoArgsConstructor
 public class Job extends BaseEntity {
 
     @Column(name = "nick_name")
@@ -25,7 +28,11 @@ public class Job extends BaseEntity {
     @JoinColumn(name = "dept_id")
     private Dept dept;
 
-    @OneToOne(mappedBy = "job")
+    @OneToMany(mappedBy = "job")
     @JsonIgnore
-    private User user;
+    private Set<User> users;
+
+    public Job (Long id){
+        this.setId(id);
+    }
 }

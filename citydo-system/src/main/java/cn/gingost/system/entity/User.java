@@ -38,15 +38,15 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "电话不能为空",groups = {Create.class, Update.class})
     @Column(name = "phone")
     private String phone;
 
-    @NotBlank
+    @NotBlank(message = "邮箱不能为空",groups = {Create.class, Update.class})
     @Column(name = "email")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "工号不能为空",groups = {Create.class, Update.class})
     @Column(name = "card")
     private String card;
 
@@ -63,7 +63,7 @@ public class User extends BaseEntity implements Serializable {
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
 
-    @OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "job_id")
     private Job job;
 

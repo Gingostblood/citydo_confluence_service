@@ -132,6 +132,10 @@ public class DeptServiceImpl implements DeptService {
                 if (Objects.nonNull(dept.getUid())){
                     put("部门主管",userRepository.findById(dept.getUid()).orElseGet(User::new).getNickName());
                 }
+                if (dept.getPid()==0){
+                    put("说明","一级部门");
+                }else
+                    put("说明","子部门");
             }};
             mapList.add(map);
         }

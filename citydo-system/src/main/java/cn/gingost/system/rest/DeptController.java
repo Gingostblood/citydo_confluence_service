@@ -36,7 +36,7 @@ public class DeptController {
     }
 
     @PostMapping("list")
-    @PreAuthorize("@ad.check()")
+    @PreAuthorize("@ad.check('dept:add')")
     @ApiOperation("新增部门")
     public ResponseEntity saveDept(@Validated(DeptReqDto.Create.class) @RequestBody DeptReqDto deptReqDto){
         deptService.saveDept(deptReqDto);
@@ -44,7 +44,7 @@ public class DeptController {
     }
 
     @PutMapping("list")
-    @PreAuthorize("@ad.check()")
+    @PreAuthorize("@ad.check('dept:edit')")
     @ApiOperation("修改部门信息")
     public ResponseEntity changeDept(@Validated(DeptReqDto.Update.class) @RequestBody DeptReqDto deptReqDto){
         deptService.changeDept(deptReqDto);
@@ -52,7 +52,7 @@ public class DeptController {
     }
 
     @DeleteMapping("list")
-    @PreAuthorize("@ad.check()")
+    @PreAuthorize("@ad.check('dept:del')")
     @ApiOperation("删除部门")
     public ResponseEntity delDept(@RequestBody Set<Long> ids){
         deptService.delDept(ids);
@@ -60,15 +60,14 @@ public class DeptController {
     }
 
     @GetMapping("query")
-    //@PreAuthorize("@ad.check()")
-    @AnonymousAccess
+    @PreAuthorize("@ad.check('dept:list')")
     @ApiOperation("模糊查询")
     public ResponseEntity query(String name){
         return new ResponseEntity(deptService.query(name),HttpStatus.OK);
     }
 
     @PostMapping("download")
-    @AnonymousAccess
+    @PreAuthorize("@ad.check('dept:list')")
     @ApiOperation("导出部门列表")
     public ResponseEntity download(BaseQuery baseQuery,HttpServletResponse response){
         deptService.download(baseQuery,response);

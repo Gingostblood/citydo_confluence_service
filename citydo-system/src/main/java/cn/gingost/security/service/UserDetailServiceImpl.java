@@ -50,7 +50,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 user.getCard(),
                 new SmallDeptDto(user.getDept().getId(),user.getDept().getNickName()),
                 new SmallJobDto(user.getJob().getId(),user.getJob().getNickName()),
-                roleService.findAllPermission(user.getId())
+                roleService.findAllPermission(user.getId(),user.getNickName())
         );
     }
 }

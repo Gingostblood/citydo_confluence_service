@@ -18,12 +18,10 @@ public class BaseQuery implements Serializable {
     @Query(type = Query.Type.IN,propName = "id")
     private Collection<Long> ids;
 
-//    @Query(type = Query.Type.BETWEEN)
-//    private Collection<Timestamp> createTime;
-//
-//    @Query(type = Query.Type.BETWEEN)
-//    private Collection<Timestamp> updateTime;
 
     @Query(type = Query.Type.INNER_LIKE,propName = "nickName")
     private String nickName;
+
+    @Query
+    private Long id;
 }

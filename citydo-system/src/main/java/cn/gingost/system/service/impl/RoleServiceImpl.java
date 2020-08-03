@@ -7,6 +7,7 @@ import cn.gingost.system.repository.RoleRepository;
 import cn.gingost.system.repository.UserRepository;
 import cn.gingost.system.service.RoleService;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,8 @@ public class RoleServiceImpl implements RoleService {
     private UserRepository userRepository;
 
     @Override
-    public Collection<GrantedAuthority> findAllPermission(Long id) {
+    @Cacheable(value = "role",key = "'user-rloe:'+#username")
+    public Collection<GrantedAuthority> findAllPermission(Long id,String username) {
         User user = userRepository.findById(id).orElseGet(User::new);
         Set<Role> roles = user.getRoles();
         Set<String> permisson = roles.stream().filter(role -> !StringUtils.isEmpty(role.getRoleName())).map(Role::getRoleName).collect(Collectors.toSet());

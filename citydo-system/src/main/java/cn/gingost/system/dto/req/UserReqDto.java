@@ -33,11 +33,20 @@ public class UserReqDto implements Serializable {
     @ApiModelProperty("部门id")
     private Long deptId;
 
+    @ApiModelProperty("部门名")
+    private Long deptName;
+
     @ApiModelProperty("角色")
     private Set<Long> roleId;
 
+    @ApiModelProperty("角色名")
+    private Set<Long> roleName;
+
     @ApiModelProperty("职位id")
     private Long jobId;
+
+    @ApiModelProperty("职位名")
+    private Long jobName;
 
     @ApiModelProperty("邮箱")
     private String email;
@@ -47,6 +56,7 @@ public class UserReqDto implements Serializable {
 
     @ApiModelProperty("电话")
     private String phone;
+
 
     public @interface Update {
     }

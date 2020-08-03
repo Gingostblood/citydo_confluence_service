@@ -36,6 +36,7 @@ public class User extends BaseEntity implements Serializable {
 
     @NotBlank
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @NotBlank(message = "电话不能为空",groups = {Create.class, Update.class})

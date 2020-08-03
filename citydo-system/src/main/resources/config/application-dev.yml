@@ -10,9 +10,10 @@ spring:
       ddl-auto: update
   redis:
     database: 10
-    host: 101.200.193.2
+#    host: 101.200.193.2
     port: 6379
     timeout: 5000
+    host: 127.0.0.1
 
 #logging:
 #  config: classpath:logback.xml

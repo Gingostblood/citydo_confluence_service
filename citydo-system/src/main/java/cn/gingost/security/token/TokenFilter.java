@@ -2,10 +2,12 @@ package cn.gingost.security.token;
 
 import cn.gingost.security.domain.JwtProperties;
 import cn.gingost.security.domain.OnlineUser;
-import cn.gingost.security.service.OnlineUserService;
 import cn.gingost.utils.RedisUtils;
 import cn.gingost.utils.SpringContextHolder;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.impl.DefaultJwtParser;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -19,6 +21,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.Key;
 
 /**
  * @author /
@@ -40,7 +43,7 @@ public class TokenFilter extends GenericFilterBean {
          JwtProperties properties = SpringContextHolder.getBean(JwtProperties.class);
          try {
             RedisUtils redisUtils = SpringContextHolder.getBean(RedisUtils.class);
-            onlineUser = (OnlineUser) redisUtils.get(properties.getOnlineKey().concat(token));
+            onlineUser = (OnlineUser) redisUtils.get(properties.getOnlineKey().concat(handlerToken(token)));
          } catch (ExpiredJwtException e) {
             log.error(e.getMessage());
          }
@@ -56,6 +59,13 @@ public class TokenFilter extends GenericFilterBean {
       }
 
       filterChain.doFilter(servletRequest, servletResponse);
+   }
+
+   private String handlerToken(String token) {
+      JwtProperties properties = SpringContextHolder.getBean(JwtProperties.class);
+      byte[] keyBytes = Decoders.BASE64.decode(properties.getBase64Secret());
+      Key key = Keys.hmacShaKeyFor(keyBytes);
+      return new DefaultJwtParser().setSigningKey(key).parseClaimsJws(token).getBody().getSubject();
    }
 
    private String resolveToken(HttpServletRequest request) {

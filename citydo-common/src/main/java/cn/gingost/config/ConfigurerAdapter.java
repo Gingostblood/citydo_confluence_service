@@ -26,6 +26,7 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
 
     @Bean
     public CorsFilter corsFilter() {
+        //注册jar包内 内置的filter等等
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);

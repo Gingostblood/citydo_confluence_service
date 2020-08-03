@@ -1,9 +1,10 @@
 package cn.gingost.security.service;
 
+import cn.gingost.exception.BadRequestException;
 import cn.gingost.security.domain.JwtUser;
+import cn.gingost.security.domain.dto.SmallDeptDto;
+import cn.gingost.security.domain.dto.SmallJobDto;
 import cn.gingost.system.entity.User;
-import cn.gingost.system.repository.RoleRepository;
-import cn.gingost.system.repository.UserRepository;
 import cn.gingost.system.service.RoleService;
 import cn.gingost.system.service.UserService;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findUserByName(username);
+        if (user.getEnabled()==true){
+            throw new BadRequestException("账号未激活，请联系管理员激活账号");
+        }
         if (Objects.nonNull(user)){
             return createJwtUser(user);
         }else {
@@ -39,13 +43,14 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 user.getId(),
                 user.getNickName(),
                 user.getPassword(),
+                user.getSex(),
                 null,
                 user.getPhone(),
                 user.getEmail(),
                 user.getCard(),
-                user.getDept().getNickName(),
-                user.getJob().getNickName(),
-                roleService.findAllPermission(user.getId())
+                new SmallDeptDto(user.getDept().getId(),user.getDept().getNickName()),
+                new SmallJobDto(user.getJob().getId(),user.getJob().getNickName()),
+                roleService.findAllPermission(user.getId(),user.getNickName())
         );
     }
 }

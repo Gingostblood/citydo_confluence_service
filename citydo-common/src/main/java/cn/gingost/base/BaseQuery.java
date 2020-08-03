@@ -3,6 +3,7 @@ package cn.gingost.base;
 import cn.gingost.annotation.Query;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -12,18 +13,15 @@ import java.util.Collection;
  */
 
 @Data
-public class BaseQuery {
-
-    @Query
-    public Long id;
+public class BaseQuery implements Serializable {
 
     @Query(type = Query.Type.IN,propName = "id")
-    public Collection<Long> ids;
+    private Collection<Long> ids;
 
-    @Query(type = Query.Type.BETWEEN)
-    public Collection<Timestamp> createTime;
 
-    @Query(type = Query.Type.BETWEEN)
-    public Collection<Timestamp> updateTime;
+    @Query(type = Query.Type.INNER_LIKE,propName = "nickName")
+    private String nickName;
 
+    @Query
+    private Long id;
 }

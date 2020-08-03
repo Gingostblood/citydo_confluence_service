@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("api/role/")
+@RequestMapping("api/sys/role/")
 @Api(tags = "系统：角色管理")
 public class RoleController {
 

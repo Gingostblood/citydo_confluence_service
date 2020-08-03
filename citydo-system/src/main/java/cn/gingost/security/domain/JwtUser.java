@@ -1,6 +1,7 @@
 package cn.gingost.security.domain;
 
-import cn.gingost.system.entity.Dept;
+import cn.gingost.security.domain.dto.SmallDeptDto;
+import cn.gingost.security.domain.dto.SmallJobDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -26,13 +26,15 @@ public class JwtUser implements UserDetails {
     private String username;
     @JsonIgnore
     private String password;
+    private String sex;
     private String type;
     private String phone;
     private String email;
     private String card;
-    private String dept;
-    private String job;
+    private SmallDeptDto dept;
+    private SmallJobDto job;
    // private Set<String> role;
+    @JsonIgnore
     private Collection<GrantedAuthority> authorities;
 
 
@@ -49,22 +51,30 @@ public class JwtUser implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
+    }
+
+    public Collection getRoles() {
+        return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
     }
 }

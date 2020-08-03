@@ -1,9 +1,16 @@
 package cn.gingost.annotation;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * @author:lezzy
  * @Date:2020/7/27 12:02
  */
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Query {
     // Dong ZhaoYang 2017/8/7 基本对象的属性名
     String propName() default "";

@@ -1,5 +1,6 @@
 package cn.gingost.base;
 
+import cn.gingost.utils.SecurityUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,15 +38,21 @@ public class BaseEntity {
     private Timestamp updateTime;
 
     @Column(name = "operator")
-    private String operator=getOperator();
+    private String operator = getOperator();
 
     @Column(name = "is_delete")
-    private Boolean isDelete=false;
+    private Boolean isDelete = false;
 
-    private String getOperator(){
-        return "lezzy";
+    private String getOperator() {
+        String username = null;
+        try {
+            username = SecurityUtils.getUsername();
+        } catch (Exception e) {
+        }
+        return username;
     }
-    public String getRespOperator(){
+
+    public String getRespOperator() {
         return this.operator;
     }
 

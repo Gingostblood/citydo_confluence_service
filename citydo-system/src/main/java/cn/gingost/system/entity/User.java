@@ -1,14 +1,15 @@
 package cn.gingost.system.entity;
 
 import cn.gingost.base.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -16,14 +17,14 @@ import java.util.Set;
  * @Date:2020/7/24 17:48
  */
 
-@Data
+@Getter
+@Setter
 @Table(name = "user")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
 @Where(clause = "is_delete=0")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
 
     @Column(name = "nick_name")
     @NotBlank(message = "用户名不能为空",groups = {Create.class, Update.class})
@@ -35,29 +36,48 @@ public class User extends BaseEntity {
 
     @NotBlank
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "电话不能为空",groups = {Create.class, Update.class})
     @Column(name = "phone")
     private String phone;
 
-    @NotBlank
+    @NotBlank(message = "邮箱不能为空",groups = {Create.class, Update.class})
     @Column(name = "email")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "工号不能为空",groups = {Create.class, Update.class})
     @Column(name = "card")
     private String card;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @NotNull
+    @Column(name = "enabled")
+    private Boolean enabled=false;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dept_id")
+    @JsonIgnore
     private Dept dept;
 
     @ManyToMany
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
 
-    @OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "job_id")
     private Job job;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "nickName='" + nickName + '\'' +
+                ", sex='" + sex + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", card='" + card + '\'' +
+                ", enabled=" + enabled +
+                '}';
+    }
 }

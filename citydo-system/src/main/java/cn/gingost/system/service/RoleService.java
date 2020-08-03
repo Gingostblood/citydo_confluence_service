@@ -9,5 +9,5 @@ import java.util.Collection;
  * @Date:2020/7/27 20:16
  */
 public interface RoleService {
-    Collection<GrantedAuthority> findAllPermission(Long id);
+    Collection<GrantedAuthority> findAllPermission(Long id,String username);
 }

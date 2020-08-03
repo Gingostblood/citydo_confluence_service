@@ -1,6 +1,7 @@
 package cn.gingost.system.entity;
 
 import cn.gingost.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,5 +35,6 @@ public class Menu extends BaseEntity {
     private Integer sort;
 
     @ManyToMany(mappedBy = "menus",fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Role> roles;
 }

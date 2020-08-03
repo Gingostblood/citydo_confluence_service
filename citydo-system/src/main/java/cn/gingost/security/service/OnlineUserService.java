@@ -21,15 +21,11 @@ public class OnlineUserService {
     private final JwtProperties jwtProperties;
     private RedisUtils redisUtils;
 
-    public OnlineUser getOne(String key) {
-        return (OnlineUser) redisUtils.get(key);
-    }
-
     public void save(JwtUser jwtUser, String token, HttpServletRequest request) {
         String ip = StringUtils.getIp(request);
         String browser = StringUtils.getBrowser(request);
         String cityinfo=StringUtils.getCityInfo(ip);
-        OnlineUser onlineUser=new OnlineUser(jwtUser.getUsername(),jwtUser.getDept(),jwtUser.getJob(),browser,ip,cityinfo,token,new Date());
-        redisUtils.set(jwtProperties.getOnlineKey().concat(token),onlineUser,jwtProperties.getTokenValidityInSeconds()/1000);
+        OnlineUser onlineUser=new OnlineUser(jwtUser.getUsername(),jwtUser.getDept().getName(),jwtUser.getJob().getName(),browser,ip,cityinfo,token,new Date());
+        redisUtils.set(jwtProperties.getOnlineKey().concat(onlineUser.getUsername()),onlineUser,jwtProperties.getTokenValidityInSeconds()/1000);
     }
 }

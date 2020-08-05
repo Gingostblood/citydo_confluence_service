@@ -32,7 +32,7 @@ public class JwtUser implements UserDetails {
     private String email;
     private String card;
     private SmallDeptDto dept;
-    private SmallJobDto job;
+    //private SmallJobDto job;
    // private Set<String> role;
     @JsonIgnore
     private Collection<GrantedAuthority> authorities;

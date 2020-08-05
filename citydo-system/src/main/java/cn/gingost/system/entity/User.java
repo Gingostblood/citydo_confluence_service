@@ -64,9 +64,9 @@ public class User extends BaseEntity implements Serializable {
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
 
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
-    @JoinColumn(name = "job_id")
-    private Job job;
+//    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+//    @JoinColumn(name = "job_id")
+//    private Job job;
 
     @Override
     public String toString() {

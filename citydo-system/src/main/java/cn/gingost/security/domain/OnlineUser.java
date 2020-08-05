@@ -21,7 +21,7 @@ public class OnlineUser implements Serializable {
 
     private String dept;
 
-    private String job;
+    //private String job;
 
     private String browser;
 

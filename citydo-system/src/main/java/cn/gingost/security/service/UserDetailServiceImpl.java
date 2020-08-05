@@ -49,7 +49,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 user.getEmail(),
                 user.getCard(),
                 new SmallDeptDto(user.getDept().getId(),user.getDept().getNickName()),
-                new SmallJobDto(user.getJob().getId(),user.getJob().getNickName()),
+                //new SmallJobDto(user.getJob().getId(),user.getJob().getNickName()),
                 roleService.findAllPermission(user.getId(),user.getNickName())
         );
     }

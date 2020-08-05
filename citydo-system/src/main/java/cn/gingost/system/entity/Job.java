@@ -28,9 +28,9 @@ public class Job extends BaseEntity {
     @JoinColumn(name = "dept_id")
     private Dept dept;
 
-    @OneToMany(mappedBy = "job")
-    @JsonIgnore
-    private Set<User> users;
+//    @OneToMany(mappedBy = "job")
+//    @JsonIgnore
+//    private Set<User> users;
 
     public Job (Long id){
         this.setId(id);

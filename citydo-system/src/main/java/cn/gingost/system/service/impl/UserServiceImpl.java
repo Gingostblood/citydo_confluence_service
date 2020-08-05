@@ -71,10 +71,10 @@ public class UserServiceImpl implements UserService {
                 });
                 user.setRoles(roles);
             }
-            if (Objects.nonNull(reqDto.getJobId())) {
-                Job job = new Job(reqDto.getJobId());
-                user.setJob(job);
-            }
+//            if (Objects.nonNull(reqDto.getJobId())) {
+//                Job job = new Job(reqDto.getJobId());
+//                user.setJob(job);
+//            }
             userRepository.save(user);
         } else {
             throw new EntityExistException(User.class, "name");
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
                 put("性别", u.getSex());
                 put("工号", u.getCard());
                 put("部门", u.getDept() == null ? "无" : u.getDept().getNickName());
-                put("职务", u.getJob() == null ? "无" : u.getJob().getNickName());
+                //put("职务", u.getJob() == null ? "无" : u.getJob().getNickName());
                 if (StringUtils.isNotBlank(u.getPhone())) {
                     put("联系电话", u.getPhone());
                 }
@@ -125,53 +125,51 @@ public class UserServiceImpl implements UserService {
     public void changeUser(UserReqDto reqDto) {
         User user = userRepository.findById(reqDto.getId()).orElseGet(User::new);
         final Set<Long> oldRoleId = user.getRoles().stream().map(Role::getId).collect(Collectors.toSet());
-        String oldname=null;
+        String oldname = null;
         if (!reqDto.getNickName().equals(user.getNickName())) {
             User userByNickName = userRepository.findUserByNickName(reqDto.getNickName());
             if (Objects.nonNull(userByNickName)) {
                 throw new EntityExistException(User.class, "name");
             }
-            oldname=user.getNickName();
+            oldname = user.getNickName();
             user.setNickName(reqDto.getNickName());
         }
         /**
          * 省略电话、邮箱判定
          */
-        if (CollectionUtil.isNotEmpty(reqDto.getRoleId()) && reqDto.getDeptId() != null && reqDto.getJobId() != null) {
-            Boolean flag=false;
-            if (reqDto.getRoleId().size()!=user.getRoles().size()){
-                setNewRoles(user,reqDto.getRoleId(),flag);
+        if (CollectionUtil.isNotEmpty(reqDto.getRoleId()) && reqDto.getDeptId() != null) {
+            Boolean flag = false;
+            if (reqDto.getRoleId().size() != user.getRoles().size()) {
+                setNewRoles(user, reqDto.getRoleId());
+                flag = true;
             }
             Collection<Long> intersection = CollectionUtil.intersection(oldRoleId, reqDto.getRoleId());
-            if (!(CollectionUtil.isNotEmpty(intersection) && intersection.size()==oldRoleId.size())){
-                setNewRoles(user,reqDto.getRoleId(),flag);
+            if (!(CollectionUtil.isNotEmpty(intersection) && intersection.size() == oldRoleId.size())) {
+                setNewRoles(user, reqDto.getRoleId());
+                flag = true;
             }
             user.setDept(new Dept(reqDto.getDeptId()));
-            user.setJob(new Job(reqDto.getJobId()));
+            //user.setJob(new Job(reqDto.getJobId()));
             user.setCard(reqDto.getCard());
             userRepository.save(user);
-            if (StringUtils.isNotBlank(oldname)){
+            if (StringUtils.isNotBlank(oldname)) {
                 redisUtils.del(jwtProperties.getOnlineKey().concat(oldname));
             }
-            if (flag){
-                redisUtils.del("user-rloe:"+oldname);
+            if (flag) {
+                redisUtils.del("user-rloe:" + oldname);
             }
-
-
         } else {
             throw new BadRequestException("请检查输入数据");
         }
     }
 
-    private User setNewRoles(User user, Set<Long> roleId,Boolean flag) {
-        Set<Role> roles=new HashSet<>();
-        roleId.forEach(id->{
-            Role role=new Role(id);
+    private User setNewRoles(User user, Set<Long> roleId) {
+        Set<Role> roles = new HashSet<>();
+        roleId.forEach(id -> {
+            Role role = new Role(id);
             roles.add(role);
         });
-        flag=true;
         user.setRoles(roles);
         return user;
-
     }
 }

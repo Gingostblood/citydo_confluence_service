@@ -77,11 +77,13 @@ public class DeptServiceImpl implements DeptService {
     public void changeDept(DeptReqDto deptReqDto) {
         final Dept deptByNickName = deptRepository.findDeptByNickName(deptReqDto.getName());
         if (Objects.nonNull(deptByNickName)) {
-            Dept dept = deptMapper.toEntity(deptReqDto);
-            deptRepository.save(dept);
-        } else
             throw new EntityExistException(Dept.class, "name");
-
+        } else {
+            Dept dept = deptRepository.findById(deptReqDto.getId()).orElseGet(Dept::new);
+            dept.setPid(deptReqDto.getDeptPid());
+            dept.setNickName(deptReqDto.getName());
+            deptRepository.save(dept);
+        }
     }
 
     @Override
@@ -115,32 +117,32 @@ public class DeptServiceImpl implements DeptService {
         List<Dept> all = Lists.newArrayList();
         if (StringUtils.isNotBlank(name)) {
             all = deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, baseQuery, criteriaBuilder));
-        }else
-            all=deptRepository.findAll();
+        } else
+            all = deptRepository.findAll();
         return all;
     }
 
     @Override
     public void download(BaseQuery baseQuery, HttpServletResponse response) {
         List<Dept> all = deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, baseQuery, criteriaBuilder));
-        List<Map<String,Object>> mapList=Lists.newArrayList();
-        for (Dept dept:all){
-            Map<String,Object> map=new LinkedHashMap<String,Object>(){{
-                put("部门名称",dept.getNickName());
-                put("创建时间",dept.getCreateTime());
-                put("修改时间",dept.getUpdateTime());
-                if (Objects.nonNull(dept.getUid())){
-                    put("部门主管",userRepository.findById(dept.getUid()).orElseGet(User::new).getNickName());
+        List<Map<String, Object>> mapList = Lists.newArrayList();
+        for (Dept dept : all) {
+            Map<String, Object> map = new LinkedHashMap<String, Object>() {{
+                put("部门名称", dept.getNickName());
+                put("创建时间", dept.getCreateTime());
+                put("修改时间", dept.getUpdateTime());
+                if (Objects.nonNull(dept.getUid())) {
+                    put("部门主管", userRepository.findById(dept.getUid()).orElseGet(User::new).getNickName());
                 }
-                if (dept.getPid()==0){
-                    put("说明","一级部门");
-                }else
-                    put("说明","子部门");
+                if (dept.getPid() == 0) {
+                    put("说明", "一级部门");
+                } else
+                    put("说明", "子部门");
             }};
             mapList.add(map);
         }
         try {
-            FileUtil.downloadExcel(mapList,response);
+            FileUtil.downloadExcel(mapList, response);
         } catch (IOException e) {
             e.printStackTrace();
             throw new BadRequestException("网络繁忙#001");
@@ -159,5 +161,4 @@ public class DeptServiceImpl implements DeptService {
         }
         return treeList;
     }
-
 }
